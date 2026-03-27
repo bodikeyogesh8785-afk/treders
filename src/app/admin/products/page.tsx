@@ -20,6 +20,16 @@ export default function AdminProducts() {
     setLoading(false);
   };
 
+  const expiredProducts = products.filter((p: any) => p.expDate && new Date(p.expDate) < new Date());
+  const nearExpiryProducts = products.filter((p: any) => {
+    if (!p.expDate) return false;
+    const exp = new Date(p.expDate);
+    const today = new Date();
+    const thirtyDaysFromNow = new Date();
+    thirtyDaysFromNow.setDate(today.getDate() + 30);
+    return exp > today && exp <= thirtyDaysFromNow;
+  });
+
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this product?')) {
       const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
@@ -33,13 +43,41 @@ export default function AdminProducts() {
   };
 
   return (
-    <div>
+    <div className="pb-10">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Products Management</h1>
-        <Link href="/admin/products/add" className="btn-primary flex items-center gap-2">
+        <h1 className="text-3xl font-bold text-gray-800 tracking-tight">Products Management</h1>
+        <Link href="/admin/products/add" className="btn-primary flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-lg hover:shadow-green-200 transition-all">
           <Plus size={20} /> Add Product
         </Link>
       </div>
+
+      {expiredProducts.length > 0 && (
+        <div className="bg-red-50 border-2 border-red-100 p-4 rounded-2xl mb-6 flex items-start gap-3 animate-pulse">
+          <div className="bg-red-500 text-white p-2 rounded-lg shadow-md">
+            <Trash2 size={24} />
+          </div>
+          <div>
+            <h3 className="text-red-800 font-black text-sm uppercase tracking-wider">🔴 Critical: Expired Products Found</h3>
+            <p className="text-red-600 text-[11px] font-bold mt-0.5">
+              The following products have expired: {expiredProducts.map((p: any) => p.name).join(', ')}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {nearExpiryProducts.length > 0 && (
+        <div className="bg-amber-50 border-2 border-amber-100 p-4 rounded-2xl mb-6 flex items-start gap-3">
+          <div className="bg-amber-500 text-white p-2 rounded-lg shadow-md">
+            <Edit size={24} />
+          </div>
+          <div>
+            <h3 className="text-amber-800 font-black text-sm uppercase tracking-wider">⚠️ Expiring Soon (Within 30 Days)</h3>
+            <p className="text-amber-600 text-[11px] font-bold mt-0.5">
+              Refill/Check stock for: {nearExpiryProducts.map((p: any) => p.name).join(', ')}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
         {loading ? (
