@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --primary: 22 163 74; /* green-600 */
+  --primary-hover: 21 128 61; /* green-700 */
+  --secondary: 234 179 8; /* yellow-500 */
+  --bg-color: 248 250 252; /* slate-50 */
+  --text-main: 15 23 42; /* slate-900 */
+}
+
+body {
+  color: rgb(var(--text-main));
+  background: rgb(var(--bg-color));
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+@layer utilities {
+  .btn-primary {
+    @apply bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105 active:scale-95;
+  }
+  .btn-secondary {
+    @apply bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200;
+  }
+  .btn-whatsapp {
+    @apply bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all flex items-center justify-center gap-2;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100 overflow-hidden;
+  }
+  .input-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all;
+  }
+}

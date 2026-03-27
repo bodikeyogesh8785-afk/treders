@@ -1,0 +1,107 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Plus, Edit, Trash2 } from 'lucide-react';
+import toast from 'react-hot-toast';
+
+export default function AdminProducts() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    const res = await fetch('/api/products');
+    const data = await res.json();
+    setProducts(data);
+    setLoading(false);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm('Are you sure you want to delete this product?')) {
+      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        toast.success('Product deleted');
+        fetchProducts();
+      } else {
+        toast.error('Failed to delete product');
+      }
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">Products Management</h1>
+        <Link href="/admin/products/add" className="btn-primary flex items-center gap-2">
+          <Plus size={20} /> Add Product
+        </Link>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
+        {loading ? (
+          <p className="p-6 text-center text-gray-500">Loading products...</p>
+        ) : (
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Image</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Name & Detail</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Price (₹)</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Cost (₹)</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Stock</th>
+                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {products.map((p: any) => (
+                <tr key={p._id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {p.imageUrl ? (
+                      <img src={p.imageUrl} alt={p.name} className="w-12 h-12 rounded object-cover shadow-sm border border-gray-100" />
+                    ) : (
+                      <div className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-500">No Img</div>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <p className="text-sm font-bold text-gray-900">{p.name}</p>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase">{p.category}</span>
+                      {p.subCategory && (
+                        <span className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-bold uppercase">{p.subCategory}</span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <p className="text-sm text-gray-900 font-bold">₹{p.price}</p>
+                    <p className="text-[10px] text-gray-500">per {p.unit || 'unit'}</p>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <p className="text-sm text-gray-500 font-medium">₹{p.purchasePrice || 0}</p>
+                    <p className="text-[10px] text-gray-400">Margin: ₹{p.price - (p.purchasePrice || 0)}</p>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex flex-col">
+                        <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full w-fit ${p.stock <= (p.lowStockThreshold || 5) ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+                        {p.stock} {p.unit?.split(' ')[1] || p.unit}
+                        </span>
+                        <p className="text-[9px] text-slate-400 font-black uppercase mt-1">Alert @ {p.lowStockThreshold || 10}</p>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button onClick={() => handleDelete(p._id)} className="text-red-500 hover:text-red-700">
+                      <Trash2 size={20} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}

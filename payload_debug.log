@@ -1,0 +1,20 @@
+[2026-03-26T14:11:02.843Z] BODY: {"productId":"69c4e80896608c5741e43bd3","quantitySold":1,"notes":"DSAI","paymentMethod":"UPI","customerName":"DSAI","sellingPrice":350}
+[2026-03-26T14:11:02.906Z] BODY: {"productId":"69c4e80896608c5741e43bd3","quantitySold":1,"notes":"DSAI","paymentMethod":"UPI","customerName":"DSAI","sellingPrice":350}
+[2026-03-26T14:11:41.525Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"MMM","paymentMethod":"UPI","customerName":"MMM","sellingPrice":1250}
+[2026-03-26T14:11:41.595Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"MMM","paymentMethod":"UPI","customerName":"MMM","sellingPrice":1250}
+[2026-03-26T14:14:35.213Z] BODY: {"productId":"69c4e80896608c5741e43bd0","quantitySold":1,"notes":"","paymentMethod":"UPI","customerName":"FINAL_FIX_TEST","sellingPrice":950}
+[2026-03-26T14:14:35.530Z] BODY: {"productId":"69c4e80896608c5741e43bd0","quantitySold":1,"notes":"","paymentMethod":"UPI","customerName":"FINAL_FIX_TEST","sellingPrice":950}
+[2026-03-26T14:17:18.314Z] BODY: {"productId":"69c4e80896608c5741e43bd0","quantitySold":1,"notes":"","paymentMethod":"UPI","customerName":"FINAL_FIX_TEST","sellingPrice":950}
+[2026-03-26T14:17:18.482Z] BODY: {"productId":"69c4e80896608c5741e43bd0","quantitySold":1,"notes":"","paymentMethod":"UPI","customerName":"FINAL_FIX_TEST","sellingPrice":950}
+[2026-03-26T14:24:37.034Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"MMM","paymentMethod":"UPI","customerName":"MMM","sellingPrice":1250}
+[2026-03-26T14:24:37.121Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"MMM","paymentMethod":"UPI","customerName":"MMM","sellingPrice":1250}
+[2026-03-26T14:24:40.711Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"MMM","paymentMethod":"UPI","customerName":"MMM","sellingPrice":1250}
+[2026-03-26T14:24:40.832Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"MMM","paymentMethod":"UPI","customerName":"MMM","sellingPrice":1250}
+[2026-03-26T14:30:58.617Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"MMM","paymentMethod":"UPI","customerName":"MMM","sellingPrice":1250}
+[2026-03-26T14:36:19.052Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"MMM","paymentMethod":"UPI","customerName":"MMM","sellingPrice":1250}
+[2026-03-26T16:57:50.957Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"mm","paymentMethod":"UPI","customerName":"mmm","sellingPrice":1250}
+[2026-03-27T15:30:19.744Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"mmm","paymentMethod":"UPI","customerName":"mmm","sellingPrice":1250}
+[2026-03-27T15:30:40.781Z] BODY: {"productId":"69c4e80896608c5741e43bd3","quantitySold":4,"notes":"mmm","paymentMethod":"UPI","customerName":"mmm","sellingPrice":350}
+[2026-03-27T15:31:09.760Z] BODY: {"productId":"69c4e80896608c5741e43bd1","quantitySold":1,"notes":"mmm","paymentMethod":"UPI","customerName":"mmm","sellingPrice":1250}
+[2026-03-27T15:31:41.862Z] BODY: {"productId":"69c4e80896608c5741e43bd0","quantitySold":1,"notes":"testing upi auto detection","paymentMethod":"Cash","customerName":"Auto UPI Test","sellingPrice":500}
+[2026-03-27T15:34:27.466Z] BODY: {"productId":"69c4e80896608c5741e43bd2","quantitySold":1,"notes":"mmm","paymentMethod":"UPI","customerName":"mmm","sellingPrice":480}
