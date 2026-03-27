@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/dist/server/web/spec-extension/response';
+import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Order from '@/models/Order';
 import { jwtVerify } from 'jose';
@@ -16,10 +16,9 @@ async function isAdmin(req: Request) {
   }
 }
 
-export async function PUT(req: Request, context: any) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const params = await context.params;
-    const { id } = params;
+    const { id } = await params;
     
     if (!(await isAdmin(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     await connectDB();

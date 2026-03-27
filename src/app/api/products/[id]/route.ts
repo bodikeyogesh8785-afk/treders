@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/dist/server/web/spec-extension/response';
+import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Product from '@/models/Product';
 import { jwtVerify } from 'jose';
@@ -16,10 +16,11 @@ async function isAdmin(req: Request) {
   }
 }
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     await connectDB();
-    const product = await Product.findById(params.id);
+    const product = await Product.findById(id);
     if (!product) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(product);
   } catch (error: any) {
@@ -27,23 +28,25 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     if (!(await isAdmin(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     await connectDB();
     const body = await req.json();
-    const updated = await Product.findByIdAndUpdate(params.id, body, { new: true });
+    const updated = await Product.findByIdAndUpdate(id, body, { new: true });
     return NextResponse.json(updated);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     if (!(await isAdmin(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     await connectDB();
-    await Product.findByIdAndDelete(params.id);
+    await Product.findByIdAndDelete(id);
     return NextResponse.json({ success: true, message: 'Deleted' });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
