@@ -68,10 +68,18 @@ export default function AdminProducts() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <p className="text-sm font-bold text-gray-900">{p.name}</p>
-                    <div className="flex items-center gap-1 mt-1">
+                    <div className="flex flex-wrap items-center gap-1 mt-1">
                       <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase">{p.category}</span>
                       {p.subCategory && (
                         <span className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-bold uppercase">{p.subCategory}</span>
+                      )}
+                      {p.mfgDate && (
+                        <span className="text-[9px] text-slate-400 font-bold uppercase">MFG: {new Date(p.mfgDate).toLocaleDateString()}</span>
+                      )}
+                      {p.expDate && (
+                        <span className={`text-[9px] font-bold uppercase ${new Date(p.expDate) < new Date() ? 'text-red-500 underline' : 'text-slate-400'}`}>
+                          EXP: {new Date(p.expDate).toLocaleDateString()}
+                        </span>
                       )}
                     </div>
                   </td>
