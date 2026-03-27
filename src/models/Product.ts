@@ -13,6 +13,8 @@ const ProductSchema = new mongoose.Schema(
     imageUrl: { type: String },
     description: { type: String },
     lowStockThreshold: { type: Number, default: 10 },
+    mfgDate: { type: Date },
+    expDate: { type: Date },
   },
   { timestamps: true }
 );

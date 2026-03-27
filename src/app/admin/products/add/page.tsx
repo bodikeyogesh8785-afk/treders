@@ -24,6 +24,8 @@ export default function AddProduct() {
     imageUrl: '',
     description: '',
     lowStockThreshold: '10',
+    mfgDate: '',
+    expDate: '',
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +71,8 @@ export default function AddProduct() {
         purchasePrice: Number(formData.purchasePrice),
         stock: Number(formData.stock),
         lowStockThreshold: Number(formData.lowStockThreshold),
+        mfgDate: formData.mfgDate || null,
+        expDate: formData.expDate || null,
       };
 
       const res = await fetch('/api/products', {
@@ -180,6 +184,21 @@ export default function AddProduct() {
                     <option value="Unit">Single Unit</option>
                   </select>
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Dates Section */}
+          <section className="space-y-6">
+            <h2 className="text-xl font-bold text-gray-800 border-b pb-2">Product Lifetime</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-100">
+                <label className="block text-sm font-bold text-blue-800 mb-2 uppercase tracking-wide">Manufacturing Date (MFG)</label>
+                <input type="date" className="input-field border-blue-200 focus:border-blue-500" value={formData.mfgDate} onChange={(e) => setFormData({...formData, mfgDate: e.target.value})} />
+              </div>
+              <div className="bg-orange-50/50 p-4 rounded-2xl border border-orange-100">
+                <label className="block text-sm font-bold text-orange-800 mb-2 uppercase tracking-wide">Expiry Date (EXP)</label>
+                <input type="date" className="input-field border-orange-200 focus:border-orange-500" value={formData.expDate} onChange={(e) => setFormData({...formData, expDate: e.target.value})} />
               </div>
             </div>
           </section>
