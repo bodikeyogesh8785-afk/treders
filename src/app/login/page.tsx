@@ -71,12 +71,7 @@ export default function LoginPage() {
               </button>
             </div>
             
-            {/* Quick Demo Credentials */}
-            <div className="mt-4 p-4 bg-blue-50 text-blue-800 text-sm rounded-lg border border-blue-200">
-              <p className="font-bold mb-1">Demo Access (To be generated):</p>
-              <p>Admin Email: admin@srijagruthi.com</p>
-              <p>Password: admin123</p>
-            </div>
+
           </form>
         </div>
       </div>
