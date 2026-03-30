@@ -138,9 +138,14 @@ export default function AdminProducts() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button onClick={() => handleDelete(p._id)} className="text-red-500 hover:text-red-700">
-                      <Trash2 size={20} />
-                    </button>
+                    <div className="flex justify-end gap-3">
+                      <Link href={`/admin/products/edit/${p._id}`} className="text-blue-500 hover:text-blue-700">
+                        <Edit size={20} />
+                      </Link>
+                      <button onClick={() => handleDelete(p._id)} className="text-red-500 hover:text-red-700">
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
