@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function AdminProducts() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchProducts();
@@ -42,13 +43,31 @@ export default function AdminProducts() {
     }
   };
 
+  const filteredProducts = products.filter((p: any) => 
+    (p.name && p.name.toLowerCase().includes(searchTerm.toLowerCase())) || 
+    (p.category && p.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
     <div className="pb-10">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800 tracking-tight">Products Management</h1>
         <Link href="/admin/products/add" className="btn-primary flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-lg hover:shadow-green-200 transition-all">
           <Plus size={20} /> Add Product
         </Link>
+      </div>
+
+      <div className="mb-8 relative max-w-xl">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <Search className="text-gray-400" size={20} />
+        </div>
+        <input 
+          type="text" 
+          placeholder="Search products by name or category..." 
+          className="w-full pl-12 pr-4 py-3 rounded-2xl border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition-all shadow-sm"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
       {expiredProducts.length > 0 && (
@@ -95,7 +114,7 @@ export default function AdminProducts() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {products.map((p: any) => (
+              {filteredProducts.map((p: any) => (
                 <tr key={p._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     {p.imageUrl ? (
