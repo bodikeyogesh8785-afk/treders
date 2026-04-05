@@ -81,6 +81,43 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
     }
   };
 
+  const compressImage = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', 0.8));
+        };
+        img.onerror = (error) => reject(error);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -88,20 +125,12 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
     try {
       let finalImageUrl = formData.imageUrl;
 
+      // Handle image upload with Base64 encoding (Vercel compatible)
       if (imageFile) {
-        const uploadData = new FormData();
-        uploadData.append('image', imageFile);
-        
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadData,
-        });
-        
-        if (uploadRes.ok) {
-          const { imageUrl } = await uploadRes.json();
-          finalImageUrl = imageUrl;
-        } else {
-          toast.error('Image upload failed');
+        try {
+          finalImageUrl = await compressImage(imageFile);
+        } catch (error) {
+          toast.error('Image processing failed');
           setLoading(false);
           return;
         }
